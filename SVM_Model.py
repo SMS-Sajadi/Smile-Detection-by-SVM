@@ -11,6 +11,7 @@ import cv2
 from Modules.Image_loader import data_loader
 from Modules.Face_Detector import face_detector
 from Modules.Feature_Extractor import feature_extract
+from Modules.Train_Test_Split import data_split
 
 
 def main():
@@ -23,13 +24,16 @@ def main():
     # Feature Extracting
     feature_matrix = feature_extract(images)
 
+    # Splitting the image's features
+    train_features, train_labels, test_features, test_labels = data_split(feature_matrix, labels, 0.3, shuffling=True)
+
     # Train the SVM
     clf = make_pipeline(StandardScaler(), SVC(kernel="rbf", C=1.0))
-    clf.fit(feature_matrix, labels)
+    clf.fit(train_features, train_labels)
 
     # Sample Test
-    output = clf.predict(feature_matrix)
-    score = accuracy_score(output, labels)
+    output = clf.predict(test_features)
+    score = accuracy_score(output, test_labels)
     print(score)
 
 if __name__ == "__main__":
