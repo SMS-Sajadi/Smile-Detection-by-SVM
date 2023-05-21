@@ -51,7 +51,7 @@ def face_detector_single(img):
     face_detector = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
     # Detecting face in image
-    face_detected = face_detector.detectMultiScale(image, 1.1, 4)
+    face_detected = face_detector.detectMultiScale(image, 1.3, 5)
 
     # Saving the faces' location to loc and crop the image
     for (x, y, w, h) in face_detected:
