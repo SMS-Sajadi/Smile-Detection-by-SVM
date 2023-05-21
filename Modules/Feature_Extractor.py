@@ -50,13 +50,15 @@ def feature_extract_single(image, histogram_feature=False):
     n_points = 8 * radius
 
     # Extracting HOG of image
-    hog_features = hog(image, orientations=16, pixels_per_cell=(16, 16), cells_per_block=(1, 1), visualize=False,
-                       feature_vector=True)
+    hog_features = hog(image, orientations=16, pixels_per_cell=(16, 16), cells_per_block=(1, 1), visualize=False, feature_vector=True)
+
     # Extracting LBP of image
     lbp_features = local_binary_pattern(image, n_points, radius, method='default')
+
     # Creating the histogram of the lbp
     if histogram_feature:
         lbp_features, _ = np.histogram(lbp_features.ravel(), bins=np.arange(0, n_points + 3), range=(0, n_points + 2))
+
     # Adding features to the matrix
     image_features.append(np.concatenate((hog_features, lbp_features.flatten())))
 
