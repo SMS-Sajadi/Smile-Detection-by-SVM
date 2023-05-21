@@ -1,9 +1,9 @@
 # Importing Needed Libraries
-import matplotlib.pyplot as plt
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
+import pickle
 
 import cv2
 
@@ -28,13 +28,20 @@ def main():
     train_features, train_labels, test_features, test_labels = data_split(feature_matrix, labels, 0.3, shuffling=True)
 
     # Training the SVM
-    clf = make_pipeline(StandardScaler(), SVC(kernel="rbf", C=1.0))
-    clf.fit(train_features, train_labels)
+    svm_model = make_pipeline(StandardScaler(), SVC(kernel="rbf", C=1.0))
+    svm_model.fit(train_features, train_labels)
+
+    # Finding the train accuracy
+    print("|----------------------- Training Result -----------------------|")
+    train_output = svm_model.predict(train_features)
+    train_accuracy = accuracy_score(train_output, train_labels)
+    print(f"Accuracy: %{train_accuracy*100} on {len(train_features)} train data")
 
     # Testing the Model
-    output = clf.predict(test_features)
-    score = accuracy_score(output, test_labels)
-    print(score)
+    print("|----------------------- Testing Result -----------------------|")
+    test_output = svm_model.predict(test_features)
+    test_accuracy = accuracy_score(test_output, test_labels)
+    print(f"Accuracy: %{test_accuracy*100} on {len(test_features)} train data")
 
 if __name__ == "__main__":
     # Setting Genki dataset address
