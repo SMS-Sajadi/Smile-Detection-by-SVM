@@ -36,8 +36,6 @@ def main():
     test_feature_matrix = feature_extract(test_images)
     print("|----------------------- Features Extracted -----------------------|\n")
 
-
-
     # Training the SVM
     svm_model = make_pipeline(StandardScaler(), SVC(kernel="rbf", C=1.0))
     svm_model.fit(train_feature_matrix, train_labels)
