@@ -60,7 +60,7 @@ def main():
         print("--- Model didn't saved ---")
     return
 
-N
+
 if __name__ == "__main__":
     # Setting Genki dataset address
     GENKI_IMAGE_ROOT = "../Genki Dataset/genki4k/files/"
