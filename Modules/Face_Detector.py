@@ -18,7 +18,10 @@ def face_detector(images):
     # Iterating over the images for face detection
     for img in images:
         # Detecting face in image
-        face_detected = face_detector.detectMultiScale(img, 1.1, 4)
+        face_detected = face_detector.detectMultiScale(img, 1.05, 3)
+        if len(face_detected) == 0:
+            flip_img = cv2.flip(img, 1)
+            face_detected = face_detector.detectMultiScale(flip_img, 1.05, 3)
 
         for (x, y, w, h) in face_detected:
             pass
