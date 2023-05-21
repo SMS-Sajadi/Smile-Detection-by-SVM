@@ -27,11 +27,11 @@ def main():
     # Splitting the image's features
     train_features, train_labels, test_features, test_labels = data_split(feature_matrix, labels, 0.3, shuffling=True)
 
-    # Train the SVM
+    # Training the SVM
     clf = make_pipeline(StandardScaler(), SVC(kernel="rbf", C=1.0))
     clf.fit(train_features, train_labels)
 
-    # Sample Test
+    # Testing the Model
     output = clf.predict(test_features)
     score = accuracy_score(output, test_labels)
     print(score)
