@@ -47,7 +47,7 @@ def main():
     print("|----------------------- Training Result -----------------------|")
     train_output = svm_model.predict(train_feature_matrix)
     train_accuracy = accuracy_score(train_output, train_labels)
-    print(f"Accuracy: %{train_accuracy*100} on {len(train_feature_matrix)} train data\n\n")
+    print(f"Accuracy: %{train_accuracy*100} on {len(train_feature_matrix)} train data\n")
 
     # Testing the Model
     print("|----------------------- Testing Result -----------------------|")
