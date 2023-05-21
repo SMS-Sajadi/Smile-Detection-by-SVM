@@ -5,8 +5,6 @@ from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
 import pickle
 
-import cv2
-
 # Importing my own modules
 from Modules.Image_loader import data_loader
 from Modules.Face_Detector import face_detector
