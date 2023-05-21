@@ -18,13 +18,24 @@ def face_detector(images):
     # Iterating over the images for face detection
     for img in images:
         # Detecting face in image
-        face_detected = face_detector.detectMultiScale(img, 1.05, 3)
-        if len(face_detected) == 0:
-            flip_img = cv2.flip(img, 1)
-            face_detected = face_detector.detectMultiScale(flip_img, 1.05, 3)
+        face_detected = face_detector.detectMultiScale(img, 1.1, 4)
 
+        # Handling if no face is detected
+        if len(face_detected) == 0:
+            # Maybe a face will be detected in the flip image
+            flip_img = cv2.flip(img, 1)
+            face_detected = face_detector.detectMultiScale(flip_img, 1.1, 4)
+
+        # Iterating to reach the last coordinates of the face
         for (x, y, w, h) in face_detected:
             pass
+
+        # Handling if really there is no face detected
+        if len(face_detected) == 0:
+            x = 0
+            y = 0
+            h = img.shape[0]
+            w = img.shape[1]
 
         # Save the detected face
         face_crop = img[y: y + h, x: x + w]
