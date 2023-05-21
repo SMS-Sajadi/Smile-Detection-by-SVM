@@ -10,6 +10,7 @@ from Modules.Image_loader import data_loader
 from Modules.Face_Detector import face_detector
 from Modules.Feature_Extractor import feature_extract
 from Modules.Train_Test_Split import data_split
+from Modules.Data_Augmentation import augment
 
 
 def main():
@@ -17,34 +18,42 @@ def main():
     images, labels = data_loader(GENKI_IMAGE_ROOT, GENKI_LABEL_ROOT)
     print("|----------------------- Dataset Loaded -----------------------|\n")
 
+    # Splitting the image's features
+    train_images, train_labels, test_images, test_labels = data_split(images, labels, 0.3, shuffling=True)
+    print("|----------------------- Dataset Split Done -----------------------|\n")
+
+    # Performing Data Augmentation
+    train_images, train_labels = augment(train_images, train_labels, flip=True, light=True)
+    print("|----------------------- Data Augmentation Done -----------------------|\n")
+
     # Detecting face in the images
-    images = face_detector(images)
+    train_images = face_detector(train_images)
+    test_images = face_detector(test_images)
     print("|----------------------- Face Detection Done -----------------------|\n")
 
     # Feature Extracting
-    feature_matrix = feature_extract(images)
+    train_feature_matrix = feature_extract(train_images)
+    test_feature_matrix = feature_extract(test_images)
     print("|----------------------- Features Extracted -----------------------|\n")
 
-    # Splitting the image's features
-    train_features, train_labels, test_features, test_labels = data_split(feature_matrix, labels, 0.3, shuffling=True)
-    print("|----------------------- Dataset Split Done -----------------------|\n")
+
 
     # Training the SVM
     svm_model = make_pipeline(StandardScaler(), SVC(kernel="rbf", C=1.0))
-    svm_model.fit(train_features, train_labels)
+    svm_model.fit(train_feature_matrix, train_labels)
     print("|----------------------- Model Trained -----------------------|\n")
 
     # Finding the train accuracy
     print("|----------------------- Training Result -----------------------|")
-    train_output = svm_model.predict(train_features)
+    train_output = svm_model.predict(train_feature_matrix)
     train_accuracy = accuracy_score(train_output, train_labels)
-    print(f"Accuracy: %{train_accuracy*100} on {len(train_features)} train data\n\n")
+    print(f"Accuracy: %{train_accuracy*100} on {len(train_feature_matrix)} train data\n\n")
 
     # Testing the Model
     print("|----------------------- Testing Result -----------------------|")
-    test_output = svm_model.predict(test_features)
+    test_output = svm_model.predict(test_feature_matrix)
     test_accuracy = accuracy_score(test_output, test_labels)
-    print(f"Accuracy: %{test_accuracy*100} on {len(test_features)} train data\n\n")
+    print(f"Accuracy: %{test_accuracy*100} on {len(test_feature_matrix)} train data\n\n")
 
     # Ask for saving
     user_entry = input("Do you want to save this model?(y,N): ")
