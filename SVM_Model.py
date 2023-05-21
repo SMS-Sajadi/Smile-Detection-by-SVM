@@ -32,8 +32,8 @@ def main():
     print("|----------------------- Face Detection Done -----------------------|\n")
 
     # Feature Extracting
-    train_feature_matrix = feature_extract(train_images)
-    test_feature_matrix = feature_extract(test_images)
+    train_feature_matrix = feature_extract(train_images, histogram_feature=False)
+    test_feature_matrix = feature_extract(test_images, histogram_feature=False)
     print("|----------------------- Features Extracted -----------------------|\n")
 
     # Training the SVM
