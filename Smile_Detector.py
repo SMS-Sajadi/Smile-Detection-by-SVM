@@ -18,22 +18,51 @@ def main():
 
     # Reading the Camera
     while(True):
+        # Reading the frame
         ret, frame = capture.read()
-        frame = cv2.resize(frame, (480, 720))
+
+        # Check if frame is read
         if ret:
-            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            faces = face_detector_single(gray_frame)
-            for face in faces:
+            # Resizing frame for better showing
+            frame = cv2.resize(frame, (480, 720))
+
+            # Detecting all faces in the frame and find their locations
+            faces, locs = face_detector_single(frame)
+
+            # Iterating over the faces detected
+            for i, face in enumerate(faces):
+                # Set the locations of the face detected
+                x, y, w, h = locs[i]
+
+                # Extracting the features of the frame
                 feature = feature_extract_single(face)
 
+                # Get prediction from the model
                 output = svm_model.predict(feature)
 
+                # if smile predicted
                 if output[0] == '1':
-                    print(1, end=" ")
+                    print(1)
+
+                    # Color will be Green
+                    color = (0, 255, 0)
                 else:
-                    print(0, end=" ")
+                    print(0)
+
+                    # if smile is not detected, color will be red
+                    color = (0, 0, 255)
+
+                # Creating a rectangle with the given locations and color based on smile detection
+                cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+
+            # Showing the frame with rectangle
             cv2.imshow("Video", frame)
-            cv2.waitKey(10)
+            cv2.waitKey(5)
+
+        else:
+            # Frame is not read
+            print("-- Frame is not loaded successfully --")
+            break
 
 
 if __name__ == "__main__":
