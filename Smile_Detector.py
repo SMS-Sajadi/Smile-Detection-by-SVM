@@ -84,7 +84,7 @@ def main():
 
 if __name__ == "__main__":
     # Source for capturing frames from
-    capture_source = "20230521_142847.mp4"
+    capture_source = "Address of your video file"
 
     # Asking user to choose capture source
     entry = input("Do you want to switch to webcam?(Y,n) ")
