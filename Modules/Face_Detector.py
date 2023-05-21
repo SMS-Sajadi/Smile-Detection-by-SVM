@@ -4,7 +4,7 @@ import cv2
 
 def face_detector(images):
     """
-    This function will crop the faces in the images and return the list of them
+    This function gets a list of images and will crop the faces in the images and return the list of them
     :param images:
     :return faces:
     """
@@ -32,7 +32,7 @@ def face_detector(images):
 
 def face_detector_single(img):
     """
-    This function will crop the face in the image and return the list of them
+    This function gets an image and will crop the face in the image and return the list of them
     :param img:
     :return faces, loc:
     """
@@ -50,6 +50,7 @@ def face_detector_single(img):
     # Detecting face in image
     face_detected = face_detector.detectMultiScale(image, 1.1, 4)
 
+    # Saving the faces' location to loc and crop the image
     for (x, y, w, h) in face_detected:
         # Location of face
         loc.append((x,y,w,h))
